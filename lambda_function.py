@@ -30,11 +30,13 @@ def get_user_exists(token, email):
 def lambda_handler(event, context):
     email = ""
     try:
-        email = event["queryStringParameters"]["email"] # or however we get this from paypal
+        body = event["body"]
+        parsedBody = json.loads(body)
+        email = parsedBody['data']['object']['customer_details']['email']
     except:
         return {
-            'statusCode': 404,
-            'body': "No email provided"
+            "statusCode": 404,
+            "body": "No email found."
         }
     url = "https://graph.microsoft.com/v1.0/invitations"
     body = {
