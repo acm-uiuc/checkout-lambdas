@@ -1,4 +1,4 @@
-# ACM @ UIUC Lambda Functions
+# ACM @ UIUC Checkout-related Lambda Functions
 
 This monorepo houses the Lambda functions that enable membership signup and user provisioning.
 
