@@ -1,6 +1,7 @@
 import json
 import requests
 import os 
+import stripe
 
 # Test Comment
 
@@ -29,10 +30,26 @@ def get_user_exists(token, email):
 
 def lambda_handler(event, context):
     email = ""
+    secret = os.environ['ENDPOINT_SECRET']
+    try:
+        if event["queryStringParameters"]["test"]:
+            print("Using test key")
+            secret = os.environ['TEST_ENDPOINT_SECRET']
+    except:
+        secret = os.environ['ENDPOINT_SECRET']
     try:
         body = event["body"]
+        stripeEvent = stripe.Webhook.construct_event(body, event['headers']['stripe-signature'], secret)
+    except Exception as e:
+        print("Exception: ", e)
+        return {
+            'statusCode': 421,
+            'body': "Invalid Payload."
+        }
+    try:
         parsedBody = json.loads(body)
         email = parsedBody['data']['object']['customer_details']['email']
+        print("Inviting: ", email)
     except:
         return {
             "statusCode": 404,
@@ -45,6 +62,7 @@ def lambda_handler(event, context):
     }
     token = get_access_token()['access_token']
     if get_user_exists(token, email):
+        print("Email already exists, not inviting: ", email)
         return {
             'statusCode': 201,
             'body': "User already exists. No need to invite again."
@@ -57,10 +75,13 @@ def lambda_handler(event, context):
     resp = x.json()
     resp["Status"] = "Done."
     if x.status_code == 201:
+        print("Invited : ", email)
         return {
             'statusCode': 200,
             'body': "Done!"
         }
+    else:
+        print("Error ", x.status_code, "inviting: ", email, " ", json.dumps(resp))
     return {
         'statusCode': x.status_code,
         'body': str(resp)

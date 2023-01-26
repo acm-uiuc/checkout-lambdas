@@ -1,6 +1,11 @@
-# PayPal Azure AD Integration
-PayPal-Azure AD integration for user provisioning.
+# ACM @ UIUC Lambda Functions
 
-This webhook runs as an AWS Lambda function and invites users to the `acm.illinois.edu` Azure AD tenant when they become a paid member through the site. 
+This monorepo houses the Lambda functions that enable membership signup and user provisioning.
 
-Commits to the `main` branch are automatically deployed to the AWS Lambda function.
+`aad-enroll.py` runs as an AWS Lambda function and invites users to the `acm.illinois.edu` Azure AD tenant when they become a paid member through the site. 
+
+`aad-enroll` uses the custom Stripe Lambda layer to provide integration with Stripe and verify Stripe tokens.
+
+`stripe-checkout.py` runs as an AWS Lambda function and generates Stripe checkout sessions for the membership signup flow. 
+
+Commits to the `main` branch are automatically deployed to the respective AWS Lambda function.
