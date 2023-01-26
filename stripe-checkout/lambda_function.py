@@ -8,7 +8,7 @@ def create_checkout_session(netid):
     
     price = "price_1MUGIRDiGOXU9RuSChPYK6wZ"
     
-    payload='success_url=https%3A%2F%2Facm.illinois.edu%2Fpaid&line_items%5B0%5D%5Bprice%5D={}&line_items%5B0%5D%5Bquantity%5D=1&mode=payment&cancel_url=https%3A%2F%2Facm.illinois.edu%2Fmembership&customer_email={}%40illinois.edu'.format(price, netid)
+    payload='success_url=https%3A%2F%2Facm.illinois.edu%2F%23%2Fpaid&line_items%5B0%5D%5Bprice%5D={}&line_items%5B0%5D%5Bquantity%5D=1&mode=payment&cancel_url=https%3A%2F%2Facm.illinois.edu%2F%23%2Fmembership&customer_email={}%40illinois.edu'.format(price, netid)
     headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Bearer {}'.format(os.environ['STRIPE_KEY'])
