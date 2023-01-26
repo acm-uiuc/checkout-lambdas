@@ -2,6 +2,7 @@ import json
 import requests
 import os
 
+
 def create_checkout_session(netid):
 
     url = "https://api.stripe.com/v1/checkout/sessions"
