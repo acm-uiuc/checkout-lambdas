@@ -46,8 +46,16 @@ def lambda_handler(event, context):
             'statusCode': 421,
             'body': "Invalid Payload."
         }
+    if
     try:
         parsedBody = json.loads(body)
+        cancel_url = parsedBody['data']['object']['cancel_url']
+        success_url = 
+        if cancel_url != "https://acm.illinois.edu/#/membership" || success_url != "https://acm.illinois.edu/#/paid":
+            return {
+                "statusCode": 200,
+                "body": "Not a subscription event."
+            }
         email = parsedBody['data']['object']['customer_details']['email']
         print("Inviting: ", email)
     except:
